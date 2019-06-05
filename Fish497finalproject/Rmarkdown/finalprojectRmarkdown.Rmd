@@ -1,0 +1,55 @@
+---
+title: "Finalprojectmarkdown"
+author: "Charlotte Gerzanics"
+date: "6/4/2019"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(tmap)
+library(ggmap)
+```
+
+## Data
+#cache=TRUE reuses results of the code chunk in subsequent “knits”. Save time re-calculating or re-downloading it each time.
+```{r, cache=TRUE}
+HAB_data<- read.csv("data/habsos_20190211.csv")
+print(HAB_data)
+```
+
+## plots
+
+```{r}
+#this creates a scatterplot of sample depth and cell count
+ggplot(HAB_data, aes(x=sample_depth, y=cellcount)) + 
+  geom_point(size=3, color = "blue", alpha = 0.5)
+
+#this creates a scatterplot of salinity and cellcount 
+ggplot(HAB_data, aes(x=salinity, y=cellcount)) + #create plot of sample date and salinity
+  geom_point(size=3, color = "blue", alpha = 0.5) +
+  labs(x = "salinity (ppt)", y = "cell count")
+```
+
+
+
+```{r}
+#----mutatations----
+head(HAB_data)
+HAB_datamutated <- 
+  HAB_data%>% mutate(water_temp_qa = NULL)+ 
+  HAB_data%>% mutate(wind_dir_qa = NULL)+
+  HAB_datamutated%>%separate(sample_date, into = c("year", "month", "day"), sep = "-") #this one uses the tidyr package
+```
+
+
+```{r}
+#-----map-----
+#this gives me a scatter plot with dots but it isnt a map
+ggplot(HAB_data, aes(x= latitude, y = longitude))+
+  geom_point(color='darkblue')
+```
+
+
